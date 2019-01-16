@@ -1,6 +1,6 @@
 (function () {
-    if ("undefined" != typeof Shopify)
-        if ("undefined" != typeof jQuery)
+    if ("undefined" != typeof Shopify) {
+        if ("undefined" != typeof jQuery) {
             if ($("html.freakdesign_custom_fields").length) alert("Already loaded the tool?");
             else {
                 var t = document,
@@ -198,18 +198,31 @@
                                     }
                             },
                             setup_custom_fields: function (b) {
-                                console.log("-----------b-----------");
-                                console.log(b);
-                                console.log("-----------b----------");
+                                console.log("-----------a-----------");
+                                console.log(a);
+                                console.log("-----------a----------");
 
                                 "undefined" === typeof b && (b = !1);
                                 var c = "/admin/" + a.data("alpha") + "/" + a.data("omega") + "/metafields.json",
                                     d = $('.header__primary-actions button[type="submit"]').eq(0),
                                     g = $(".ui-layout__section--primary .ui-layout__item:last");
+                                console.log("-----------c-----------");
+                                console.log(c);
+                                console.log("-----------c----------");
                                 custom_field_panel = $('<div class="ui-layout__item"><div class="ui-card next-card"><div class="next-card__header"><h3 class="next-heading">Custom Fields <a target="_blank" class="tooltip" href="' +
                                     a.data("help_file") + '"><i class="ico ico-16 ico-help"></i></a></h3></div><div class="next-card__section"><p>Manage the custom fields that belong to ' + b + '.</p><div class="next-grid__cell"><div class="next-card"><div class="section-content" id="collection-metafields"></div></div></div></div></div></div>');
+
                                 "customers" === a.data("alpha") ? (g = $("#customer-profile").parent(), custom_field_panel = custom_field_panel.find(".next-card")) : "orders" === a.data("alpha") ? (g = $("#order_card"), custom_field_panel = custom_field_panel.find(".next-card")) :
-                                    "pages" !== a.data("alpha") && "articles" !== a.data("alpha") && ("collections" === a.data("alpha") ? (g = $("div.next-card:not(.next-card--announcement)").eq(0), custom_field_panel = custom_field_panel.find(".next-card")) : "products" === a.data("alpha") && (g = $(".ui-layout__section--primary .ui-layout__item .ui-card:first"), custom_field_panel = custom_field_panel.find(".next-card")));
+                                    "pages" !== a.data("alpha") && "articles" !== a.data("alpha") && ("collections" === a.data("alpha") ? (g = $("form").eq(0), custom_field_panel = custom_field_panel.find(".next-card")) : "products" === a.data("alpha") && (g = $(".ui-layout__section--primary .ui-layout__item .ui-card:first"), custom_field_panel = custom_field_panel.find(".next-card")));
+
+                                console.log("-----------custom_field_panel-----------");
+                                console.log(custom_field_panel);
+                                console.log("-----------custom_field_panel----------");
+
+                                console.log("-----------g-----------");
+                                console.log(g);
+                                console.log("-----------g----------");
+
                                 g.length ? (a.setting("hideProductCustomFields") || g.after(custom_field_panel), d.length && "Save" === d.text() && d.text("Save (without Custom Fields)"),
                                     a.data("fields", []), $.ajax({
                                         type: "GET",
@@ -512,6 +525,10 @@
                     a.init()
                 } else alert("Not admin")
             }
-    else alert("No jquery found!");
-    else alert("Shopify javascript is not found. Are you in your admin?")
+        } else {
+            alert("No jquery found!");
+        }
+    } else {
+        alert("Shopify javascript is not found. Are you in your admin?")
+    }
 })();
