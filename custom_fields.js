@@ -99,7 +99,33 @@
                                     b.rel = "stylesheet";
                                     b.id = "css_custom_fields";
                                     b.href = a.data("css");
-                                    document.getElementsByTagName("head")[0].appendChild(b)
+                                    document.getElementsByTagName("head")[0].appendChild(b);
+
+                                    var css = `
+                                    .ui-layout__item {
+                                        padding: 20px;
+                                    }
+
+                                    .cf-ui-card { background-color: white; box-shadow: 0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15); }
+
+                                    .cf-card-header { padding: 2rem 2rem 0; }
+
+                                    .cf-card-header h3 { font-size: 1.6rem; font-weight: 600; line-height: 2.4rem; margin: 0; }
+
+                                    .cf-card-section { padding: 2rem; }
+
+                                    .custom_fields_box.is-product{ display: table-cell; }
+
+                                    .fd-cf-btn { fill: #D81965; position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 3.6rem; min-width: 3.6rem; margin: 0; padding: .7rem 1.6rem; background: #D81965; border: .1rem solid #BA188C; box-shadow: 0 1px 0 0 rgba(22,29,37,.05); border-radius: 3px; line-height: 1; color: #fff; text-align: center; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; text-decoration: none; transition-property: background,border,box-shadow; transition-duration: .2s; transition-timing-function: cubic-bezier(.64,0,.35,1); }
+
+                                    .cf-input{ display:block }`;
+
+                                    var style = document.createElement('style');
+                                    console.log("MY CSS");
+                                    console.log(css);
+                                    style.type = 'text/css';
+                                    style.innerText = css;
+                                    document.getElementsByTagName('head')[0].appendChild(style);
                                 }
                             },
                             api: function (b) {
@@ -155,7 +181,7 @@
                                         if (c.length) {
                                             "undefined" === typeof b.callback && (b.callback = !1);
                                             var g = b.t;
-                                            g.attr("style", "color:rgba(0,0,0,0)").addClass("is-loading disabled");
+                                            g.attr("style", "color:#d81965;background:white;cursor:not-allowed;").addClass("is-loading disabled");
                                             var f = function (e, d) {
                                                 "undefined" === typeof e && (e = 0);
                                                 if ("undefined" === typeof d) a.notice("Type unknown", !0);
@@ -205,19 +231,32 @@
                                 "undefined" === typeof b && (b = !1);
                                 var c = "/admin/" + a.data("alpha") + "/" + a.data("omega") + "/metafields.json",
                                     d = $('.header__primary-actions button[type="submit"]').eq(0),
-                                    g = $(".ui-layout__section--primary .ui-layout__item:last");
+                                    g = $(".ui-layout__section--primary .ui-layout__item:last"),
+                                    k = null;
+
+
                                 console.log("-----------c-----------");
                                 console.log(c);
                                 console.log("-----------c----------");
-                                custom_field_panel = $('<div class="ui-layout__item"><div class="ui-card next-card"><div class="next-card__header"><h3 class="next-heading">Custom Fields <a target="_blank" class="tooltip" href="' +
-                                    a.data("help_file") + '"><i class="ico ico-16 ico-help"></i></a></h3></div><div class="next-card__section"><p>Manage the custom fields that belong to ' + b + '.</p><div class="next-grid__cell"><div class="next-card"><div class="section-content" id="collection-metafields"></div></div></div></div></div></div>');
+                                custom_field_panel = $('<div class="ui-layout__item"><div class="cf-ui-card"><div class="cf-card-header"><h3 class="next-heading">Custom Fields </h3></div><div class="cf-card-section"><div class="next-grid__cell"><div class="next-card"><div class="section-content" id="collection-metafields"></div></div></div></div></div></div>');
 
-                                "customers" === a.data("alpha") ? (g = $("#customer-profile").parent(), custom_field_panel = custom_field_panel.find(".next-card")) : "orders" === a.data("alpha") ? (g = $("#order_card"), custom_field_panel = custom_field_panel.find(".next-card")) :
-                                    "pages" !== a.data("alpha") && "articles" !== a.data("alpha") && ("collections" === a.data("alpha") ? (g = $("form").eq(0), custom_field_panel = custom_field_panel.find(".next-card")) : "products" === a.data("alpha") && (g = $(".ui-layout__section--primary .ui-layout__item .ui-card:first"), custom_field_panel = custom_field_panel.find(".next-card")));
+                                "customers" === a.data("alpha") ? (g = $("#customer-profile").parent(), custom_field_panel = custom_field_panel.find(".cf-ui-card")) : "orders" === a.data("alpha") ? (g = $("#order_card"), custom_field_panel = custom_field_panel.find(".cf-ui-card")) :
+                                    "pages" !== a.data("alpha") && "articles" !== a.data("alpha") && ("collections" === a.data("alpha") ? (g = $("form").eq(0), custom_field_panel = custom_field_panel.find(".cf-ui-card")) : "products" === a.data("alpha") && (g = $(".ui-layout__section--primary .ui-layout__item .ui-card:first"), custom_field_panel = custom_field_panel.find(".cf-ui-card")));
 
                                 console.log("-----------custom_field_panel-----------");
                                 console.log(custom_field_panel);
                                 console.log("-----------custom_field_panel----------");
+                                console.log("-----------g.length-----------");
+                                console.log(g.length);
+                                console.log("-----------g.length----------");
+
+                                if (!g.length){
+                                    g = $("#AppFrameMain > div");
+                                    console.log("-----------k-----------");
+                                    console.log(g);
+                                    console.log("-----------k----------");
+
+                                }
 
                                 console.log("-----------g-----------");
                                 console.log(g);
@@ -246,14 +285,14 @@
                                                         a.data("fields", l);
                                                         e = a.remove_brackets(e);
                                                         l = '<div class="half">';
-                                                        l = 1 < b.metafields[h].value.length ? l + ('<label for="product-type"><span class="tooltip tooltip-bottom" style="display:inline-block;position:relative">' + e + '<span class="tooltip-container"><span class="tooltip-label">' + b.metafields[h].namespace + "." + b.metafields[h].key + '</span></span></span><span class="note block">' + a.remove_brackets(b.metafields[h].value) + "</span></label>") : l + ('<label for="product-type">' + e + "</label>");
+                                                        l = 1 < b.metafields[h].value.length ? l + ('<label for="product-type"><span style="display:inline-block;position:relative">' + e + ' - ' + b.metafields[h].namespace + "." + b.metafields[h].key + '</span><span class="note block">' + a.remove_brackets(b.metafields[h].value) + "</span></label>") : l + ('<label for="product-type">' + e + "</label>");
                                                         if ("textarea" === m.field) l +=
                                                             '<textarea data-namespace="' + n + '" name="' + b.metafields[h].key + '" placeholder="' + a.remove_brackets(b.metafields[h].key) + '" data-key="' + b.metafields[h].key + '" data-type="' + b.metafields[h].value_type + '"></textarea>';
                                                         else {
                                                             var v = 'type="text"';
                                                             "date" === m.field && (v = 'type="date"');
                                                             "number" === m.field && (v = 'type="number"');
-                                                            l += "<input " + v + ' data-namespace="' + n + '" data-cffield="' + m.field + '" data-cftype="' + m.type + '" name="' + b.metafields[h].key + '" placeholder="' + a.remove_brackets(e) + '" value="" data-key="' + b.metafields[h].key +
+                                                            l += "<input class='cf-input' " + v + ' data-namespace="' + n + '" data-cffield="' + m.field + '" data-cftype="' + m.type + '" name="' + b.metafields[h].key + '" placeholder="' + a.remove_brackets(e) + '" value="" data-key="' + b.metafields[h].key +
                                                                 '" data-type="' + b.metafields[h].value_type + '">'
                                                         }
                                                         l += "</div>";
@@ -262,7 +301,7 @@
                                             }
                                             b = !0;
                                             k.length || (k = '<div class="box warning">' + a.translate("no_fields") + "</div>", b = !1);
-                                            custom_field_panel.find(".next-card__section").eq(0).append('<div class="custom_fields_box is-product clearfix fadein"><div class="content">' + k + "</div></div>");
+                                            custom_field_panel.find(".cf-card-section").eq(0).append('<div class="custom_fields_box is-product clearfix fadein"><div class="content">' + k + "</div></div>");
                                             a.data("variantPanel", f);
                                             if (b) {
                                                 custom_field_panel.find('input[data-cftype="collection"]').each(function () {
@@ -300,8 +339,9 @@
                                                         a.notice(a.translate("error_get_metafields"), !0)
                                                     }
                                                 });
-                                                e = $("<a />", {
-                                                    "class": "btn fadein fd-cf-btn"
+                                                e = $("<button />", {
+                                                    "class": "btn fadein fd-cf-btn",
+                                                    "type": "button"
                                                 }).on("click", function (b) {
                                                     b.preventDefault();
                                                     b = {
@@ -324,6 +364,7 @@
                                 console.log("-----------b3----------");
 
                                 $("button.ui-button.ui-button--size-small").not(".custom-fields-variant-button").after('<button class="ui-button ui-button--size-small custom-fields-variant-button"><span class="tooltip-container"><span class="tooltip-label">Show Custom Fields</span></span><svg style="vertical-align: top" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 12 12" enable-background="new 0 0 12 12" xml:space="preserve"><polygon fill="#D81965" points="0,0 0,12 10,12 10,11 11,11 11,10 12,10 12,0 "/><path fill="#FFFFFF" d="M7 9v1h1V9H7zM8 11h1v-1H8V11zM9 10h1V9H9V10zM10 9h1V8h-1V9zM1 11h1v-1H1V11zM2 10h1V9H2V10zM3 9h1V8H3V9zM1 6h10V5H1V6zM1 4h10V3H1V4zM1 1v1h10V1H1zM4 11v-1H3v1H4zM1 8v1h1V8H1z"/></svg></button>');
+
                                 "products" === b &&
                                     (b = $("button.ui-button.ui-button--size-small.custom-fields-variant-button").on("click",
                                         function (b) {
